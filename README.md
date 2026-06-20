@@ -410,46 +410,46 @@ The current build may report Vite's large chunk warning because Three.js and the
 
 MindFrameOS is an active prototype.
 
-Current limitations:
+Current limitation TODOs:
 
-- not a bootable OS installer yet
-- not a GitHub Pages static app by itself because the app expects a live Fastify backend
-- Quest headset UAT must still be run on physical hardware
-- RTX 5060 Ti CUDA/NVENC success must be verified on the target Ubuntu host
-- real Linux app panel streaming is still a planned path
-- noVNC/virtual display capture is represented by planning hooks, not a finished app surface stack
-- terminal PTY behavior has fallback contracts, but a full shell session path is not complete
-- voice input is scaffolded as a push-to-talk source, not a full speech recognition pipeline
-- remote depth/alpha sidecars are optional future work
-- full controller/hand drag mechanics need headset UAT
+- [ ] Build a bootable OS installer.
+- [ ] Decide whether to add a GitHub Pages/static landing app, separate from the live Fastify-backed workspace.
+- [ ] Run Quest headset UAT on physical hardware.
+- [ ] Verify RTX 5060 Ti CUDA/NVENC success on the target Ubuntu host.
+- [ ] Implement real Linux app panel streaming.
+- [ ] Replace noVNC/virtual display planning hooks with a finished app surface stack.
+- [ ] Complete full PTY-backed shell session behavior for the terminal.
+- [ ] Replace push-to-talk scaffolding with a full speech recognition/input pipeline.
+- [ ] Add optional remote depth/alpha sidecars.
+- [ ] Run headset UAT for full controller/hand Drag Bus mechanics.
 
 ## Roadmap
 
 Near-term:
 
-- real PTY-backed terminal sessions
-- Linux app panel streaming through virtual displays
-- Quest controller ray and hand pinch Drag Bus binding
-- first real `mindframe-renderd` producer loop
-- MediaMTX/WHEP end-to-end remote layer UAT
-- headset comfort pass for mode switching, Johnny AFK, and terminal focus
+- [ ] Real PTY-backed terminal sessions.
+- [ ] Linux app panel streaming through virtual displays.
+- [ ] Quest controller ray and hand pinch Drag Bus binding.
+- [ ] First real `mindframe-renderd` producer loop.
+- [ ] MediaMTX/WHEP end-to-end remote layer UAT.
+- [ ] Headset comfort pass for mode switching, Johnny AFK, and terminal focus.
 
 Mid-term:
 
-- persistent Notion memory with approval boundaries
-- daily self-revision plans with preview branches
-- richer Johnny AFK task invention and return cards
-- app surface docking and spatial window layout persistence
-- RTX-rendered 3D background layers
-- better adaptive quality telemetry
+- [ ] Persistent Notion memory with approval boundaries.
+- [ ] Daily self-revision plans with preview branches.
+- [ ] Richer Johnny AFK task invention and return cards.
+- [ ] App surface docking and spatial window layout persistence.
+- [ ] RTX-rendered 3D background layers.
+- [ ] Better adaptive quality telemetry.
 
 Long-term:
 
-- bootable Ubuntu-based MindFrameOS appliance image
-- first-boot NVIDIA/CUDA provisioning
-- automatic tunnel/service setup
-- local speech-to-experience loop
-- stereo/foveated/depth-aware remote layer research
+- [ ] Bootable Ubuntu-based MindFrameOS appliance image.
+- [ ] First-boot NVIDIA/CUDA provisioning.
+- [ ] Automatic tunnel/service setup.
+- [ ] Local speech-to-experience loop.
+- [ ] Stereo/foveated/depth-aware remote layer research.
 
 ## Safety Philosophy
 
