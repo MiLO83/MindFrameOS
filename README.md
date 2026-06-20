@@ -53,6 +53,7 @@ MindFrameOS currently includes:
 - Notion Index power-user panel
 - Notion Event Bus and Recent Activity feed
 - Drag Bus for typed drops between Notions and floating targets
+- persistent app surface layout with left, center, right, and free placement docking
 - Johnny AFK state contracts, hover rituals, return cards, and hidden-code prompt scaffolding
 - prompt-to-experience scene planning without exposing generated source by default
 - browser speech recognition pipeline that turns final voice transcripts into hidden-code experience prompts
@@ -184,6 +185,12 @@ Drops are typed and permission-aware. Accepted drops emit `drag.drop.completed`;
 
 The current browser UI is a desktop fallback for the same contracts Quest controller/hand interaction will bind to later.
 
+## Surface Layout
+
+App surfaces have a persisted spatial layout stored in `.mindframe/app-surface-layout.json`.
+
+The control shell can dock registered app surfaces into left, center, right, or free placement presets. Layout updates are available through authenticated API routes and survive server restarts, so future Linux app panels and noVNC surfaces can attach to stable spatial positions instead of reappearing wherever the stream producer happens to start.
+
 ## Johnny AFK
 
 Johnny AFK is the idle/dream layer of MindFrameOS.
@@ -287,6 +294,8 @@ MindFrame:
 - `POST /api/mindframe/console`
 - `GET /api/mindframe/capabilities`
 - `GET /api/mindframe/linux-apps`
+- `GET /api/mindframe/app-surfaces/layout`
+- `POST /api/mindframe/app-surfaces/layout`
 
 Notions:
 
@@ -459,7 +468,7 @@ Mid-term:
 - [x] Persistent Notion memory with approval boundaries.
 - [x] Daily self-revision plans with preview branches.
 - [ ] Richer Johnny AFK task invention and return cards.
-- [ ] App surface docking and spatial window layout persistence.
+- [x] App surface docking and spatial window layout persistence.
 - [ ] RTX-rendered 3D background layers.
 - [ ] Better adaptive quality telemetry.
 
