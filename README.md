@@ -66,6 +66,7 @@ MindFrameOS currently includes:
 - `mindframe-renderd` daemon scaffold for RTX/NVENC producer planning
 - guarded Ubuntu NVIDIA/CUDA installer
 - NVIDIA/CUDA/NVENC verification scripts
+- bootable Ubuntu appliance ISO builder with NoCloud/autoinstall seed files
 - systemd, Cloudflare Tunnel, and MediaMTX example configs
 - public README/release channel for sharing the project without publishing source or a static app bundle
 - Vitest coverage across shared contracts, server routes, signaling, render daemon planning, client projection, and WebXR state
@@ -266,6 +267,33 @@ http://127.0.0.1:8787/
 | `npm test` | Run Vitest. |
 | `npm run build` | Type-check and build the client. |
 | `npm run check` | Run tests and build together. |
+
+## Bootable Appliance Installer
+
+MindFrameOS includes a guarded Ubuntu live-server ISO remaster path for a future appliance install.
+
+Dry-run the build plan:
+
+```bash
+bash scripts/build-mindframe-appliance-iso.sh --dry-run
+```
+
+Build from an Ubuntu live-server ISO on a Linux host with `xorriso`:
+
+```bash
+bash scripts/build-mindframe-appliance-iso.sh \
+  --ubuntu-iso ubuntu-24.04-live-server-amd64.iso \
+  --output MindFrameOS-appliance.iso \
+  --build
+```
+
+The generated image maps:
+
+- `deploy/appliance/user-data` and `meta-data` into `/nocloud`
+- `deploy/appliance/grub-mindframe.cfg` as the appliance boot menu
+- MindFrame first-boot, NVIDIA/CUDA, GPU verification, and systemd service files into `/mindframe`
+
+Physical install/UAT still has to be run on the target Ubuntu RTX host.
 
 ## API Surface
 
@@ -471,7 +499,7 @@ MindFrameOS is an active prototype.
 
 Current limitation TODOs:
 
-- [ ] Build a bootable OS installer.
+- [x] Build a bootable OS installer.
 - [x] Decide whether to add a GitHub Pages/static landing app, separate from the live Fastify-backed workspace.
 - [ ] Run Quest headset UAT on physical hardware.
 - [ ] Verify RTX 5060 Ti CUDA/NVENC success on the target Ubuntu host.
@@ -504,7 +532,7 @@ Mid-term:
 
 Long-term:
 
-- [ ] Bootable Ubuntu-based MindFrameOS appliance image.
+- [x] Bootable Ubuntu-based MindFrameOS appliance image.
 - [x] First-boot NVIDIA/CUDA provisioning.
 - [x] Automatic tunnel/service setup.
 - [x] Local speech-to-experience loop.
