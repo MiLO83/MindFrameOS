@@ -55,6 +55,7 @@ MindFrameOS currently includes:
 - Drag Bus for typed drops between Notions and floating targets
 - Johnny AFK state contracts, hover rituals, return cards, and hidden-code prompt scaffolding
 - prompt-to-experience scene planning without exposing generated source by default
+- browser speech recognition pipeline that turns final voice transcripts into hidden-code experience prompts
 - scratch/pinned experience scaffolding for compatibility checks and rollback
 - distributed render-layer manifests
 - authenticated WebRTC signaling hub
@@ -190,6 +191,12 @@ Johnny AFK is the idle/dream layer of MindFrameOS.
 In the active chamber, rest the pointer over the system clock for about five seconds to trigger sleepy viewport eyelids and enter Johnny's island. On the island, rest over the thatched hammock to put Johnny back to sleep and return to the chamber.
 
 Johnny can visualize assigned work and bounded invented work as return cards. Invented changes to pinned/protected experiences are preview branches until approved. Code, diffs, and terminal details stay hidden unless the console is toggled or details are requested. A daily self-revision pass can prepare one approval-gated preview branch per day so MindFrameOS keeps improving without silently mutating protected experiences.
+
+## Speech-To-Experience
+
+The prompt panel supports a browser speech recognition pipeline when `SpeechRecognition` or `webkitSpeechRecognition` is available.
+
+The mic button starts and stops listening, interim transcripts appear in the prompt field, final transcripts submit to `/api/mindframe/prompt` with `source: "voice"`, and unsupported browsers show a disabled mic state instead of pretending voice input is available. Voice prompts still follow the hidden-code contract: the app updates the visible experience without exposing generated source by default.
 
 ## Involvement Tiers
 
@@ -432,7 +439,7 @@ Current limitation TODOs:
 - [ ] Implement real Linux app panel streaming.
 - [ ] Replace noVNC/virtual display planning hooks with a finished app surface stack.
 - [ ] Complete full PTY-backed shell session behavior for the terminal.
-- [ ] Replace push-to-talk scaffolding with a full speech recognition/input pipeline.
+- [x] Replace push-to-talk scaffolding with a full speech recognition/input pipeline.
 - [ ] Add optional remote depth/alpha sidecars.
 - [ ] Run headset UAT for full controller/hand Drag Bus mechanics.
 
@@ -461,7 +468,7 @@ Long-term:
 - [ ] Bootable Ubuntu-based MindFrameOS appliance image.
 - [ ] First-boot NVIDIA/CUDA provisioning.
 - [ ] Automatic tunnel/service setup.
-- [ ] Local speech-to-experience loop.
+- [x] Local speech-to-experience loop.
 - [ ] Stereo/foveated/depth-aware remote layer research.
 
 ## Safety Philosophy
