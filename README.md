@@ -156,7 +156,7 @@ A Notion can be a:
 - app surface
 - experience
 
-Notions declare abilities, needs, anchors, surfaces, permissions, memory policy, safety tier, and links. They integrate through approved links between typed needs and typed abilities. Protected Notion memory cannot be directly mutated by another Notion.
+Notions declare abilities, needs, anchors, surfaces, permissions, memory policy, safety tier, and links. They integrate through approved links between typed needs and typed abilities. Protected Notion memory is persisted in `.mindframe/notion-memory.json` and can only be changed by the owning Notion or by another Notion with an active approved `allowsMemoryWrite` link. Accepted and rejected writes emit audit events in Recent Activity.
 
 The Notion Index is the power-user view. The immersive shell can still present them as places, tools, characters, and world objects first.
 
@@ -282,7 +282,9 @@ Notions:
 
 - `GET /api/mindframe/notions`
 - `GET /api/mindframe/notions/events`
+- `GET /api/mindframe/notions/memory/:notionId`
 - `POST /api/mindframe/notions/links`
+- `POST /api/mindframe/notions/memory`
 
 Drag Bus:
 
@@ -436,7 +438,7 @@ Near-term:
 
 Mid-term:
 
-- [ ] Persistent Notion memory with approval boundaries.
+- [x] Persistent Notion memory with approval boundaries.
 - [ ] Daily self-revision plans with preview branches.
 - [ ] Richer Johnny AFK task invention and return cards.
 - [ ] App surface docking and spatial window layout persistence.
