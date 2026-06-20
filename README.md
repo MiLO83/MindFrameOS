@@ -473,7 +473,7 @@ Current limitation TODOs:
 - [ ] Replace noVNC/virtual display planning hooks with a finished app surface stack.
 - [ ] Complete full PTY-backed shell session behavior for the terminal.
 - [x] Replace push-to-talk scaffolding with a full speech recognition/input pipeline.
-- [ ] Add optional remote depth/alpha sidecars.
+- [x] Add optional remote depth/alpha sidecars.
 - [ ] Run headset UAT for full controller/hand Drag Bus mechanics.
 
 ## Roadmap
