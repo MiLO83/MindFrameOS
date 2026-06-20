@@ -8,6 +8,8 @@
 
 MindFrameOS is an AR-first, WebXR-based Linux workspace for Quest-class headsets and RTX-backed desktop/server machines.
 
+> This public repository is the MindFrameOS landing and release channel. It intentionally exposes the README and public releases only; the active source repository is private while the project is still experimental.
+
 The headset owns the things that must never stutter: passthrough, tracking, controller input, local terminal overlays, emergency controls, and final WebXR composition. The PC owns the expensive work: RTX remote render layers, Linux app surfaces, NVENC video paths, CUDA workloads, and future noVNC/virtual display capture.
 
 The result is not a bootable operating system yet. It is an OS-like spatial workspace that runs on top of an existing desktop/server OS today, with a clear path toward a future bootable MindFrame appliance.
@@ -373,7 +375,9 @@ Expected checks:
 8. Start the services.
 9. Open the tunneled HTTPS URL in Quest Browser.
 
-## Repository Layout
+## Private Source Layout
+
+The private source repository is organized as:
 
 ```text
 deploy/                  systemd, MediaMTX, Cloudflare examples
