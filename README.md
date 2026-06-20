@@ -41,6 +41,10 @@ MindFrameOS currently includes:
   - full VR-style opaque world
   - 50 percent AR hybrid
   - passthrough AR
+- posture-aware workspace layouts:
+  - desk/front layout
+  - 360 swivel-chair ring
+  - bed skyview overhead layout
 - authenticated terminal/control overlay with process-backed shell session, history, and resize routes
 - emergency disconnect that dims remote layers
 - MindFrame Notions:
@@ -120,6 +124,8 @@ The app requests `immersive-ar` with optional WebXR features:
 The three display modes are implemented as composition behavior inside one AR session, because WebXR cannot freely switch between `immersive-vr` and `immersive-ar` mid-session.
 
 Native WebXR composition layers are intended when available. The fallback path renders remote streams as textures on Three.js planes.
+
+The workspace can also be reprojected for posture. Desk mode preserves authored front-facing placements. 360 Chair mode distributes remote layers around a full ring so physical swivel-chair rotation becomes navigation. Bed Skyview mode raises panels into an overhead arc for lying down and looking upward. A Summon control brings the active surface back into the current comfortable view without flattening the whole workspace.
 
 ## Distributed Rendering Model
 
