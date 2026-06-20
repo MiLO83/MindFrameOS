@@ -188,7 +188,7 @@ Johnny AFK is the idle/dream layer of MindFrameOS.
 
 In the active chamber, rest the pointer over the system clock for about five seconds to trigger sleepy viewport eyelids and enter Johnny's island. On the island, rest over the thatched hammock to put Johnny back to sleep and return to the chamber.
 
-Johnny can visualize assigned work and bounded invented work as return cards. Invented changes to pinned/protected experiences are preview branches until approved. Code, diffs, and terminal details stay hidden unless the console is toggled or details are requested.
+Johnny can visualize assigned work and bounded invented work as return cards. Invented changes to pinned/protected experiences are preview branches until approved. Code, diffs, and terminal details stay hidden unless the console is toggled or details are requested. A daily self-revision pass can prepare one approval-gated preview branch per day so MindFrameOS keeps improving without silently mutating protected experiences.
 
 ## Involvement Tiers
 
@@ -274,6 +274,8 @@ MindFrame:
 - `POST /api/mindframe/prompt`
 - `POST /api/mindframe/experiences/pin`
 - `GET /api/mindframe/evolve/tasks`
+- `GET /api/mindframe/evolve/daily`
+- `POST /api/mindframe/evolve/daily`
 - `POST /api/mindframe/console`
 - `GET /api/mindframe/capabilities`
 - `GET /api/mindframe/linux-apps`
@@ -439,7 +441,7 @@ Near-term:
 Mid-term:
 
 - [x] Persistent Notion memory with approval boundaries.
-- [ ] Daily self-revision plans with preview branches.
+- [x] Daily self-revision plans with preview branches.
 - [ ] Richer Johnny AFK task invention and return cards.
 - [ ] App surface docking and spatial window layout persistence.
 - [ ] RTX-rendered 3D background layers.
