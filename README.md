@@ -386,6 +386,30 @@ Expected checks:
 
 ## Deployment Sketch
 
+Dry-run the first-boot path:
+
+```bash
+bash scripts/first-boot-provision-ubuntu.sh --dry-run
+```
+
+Apply it on the native Ubuntu RTX host:
+
+```bash
+sudo bash scripts/first-boot-provision-ubuntu.sh --apply
+```
+
+The first-boot provisioner:
+
+- refuses WSL/native-driver confusion
+- delegates NVIDIA/CUDA/NVENC setup to `scripts/install-nvidia-cuda-ubuntu.sh`
+- installs `deploy/mindframe-os.service` and `deploy/mindframe-renderd.service`
+- writes `/etc/mindframe-os/mindframe.env` if it does not already exist
+- copies `deploy/cloudflared-config.example.yml` to `/etc/cloudflared/config.yml`
+- enables MindFrame services and Cloudflared through systemd
+- writes `.mindframe/first-boot-report.txt`
+
+Manual deployment is still possible:
+
 1. Copy the repo to `/opt/mindframe-os`.
 2. Put secrets in `/etc/mindframe-os/mindframe.env`.
 3. Install `deploy/mindframe-os.service`.
@@ -475,8 +499,8 @@ Mid-term:
 Long-term:
 
 - [ ] Bootable Ubuntu-based MindFrameOS appliance image.
-- [ ] First-boot NVIDIA/CUDA provisioning.
-- [ ] Automatic tunnel/service setup.
+- [x] First-boot NVIDIA/CUDA provisioning.
+- [x] Automatic tunnel/service setup.
 - [x] Local speech-to-experience loop.
 - [ ] Stereo/foveated/depth-aware remote layer research.
 
