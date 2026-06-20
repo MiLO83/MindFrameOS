@@ -493,7 +493,7 @@ Mid-term:
 - [x] Daily self-revision plans with preview branches.
 - [x] Richer Johnny AFK task invention and return cards.
 - [x] App surface docking and spatial window layout persistence.
-- [ ] RTX-rendered 3D background layers.
+- [x] RTX-rendered 3D background layers.
 - [x] Better adaptive quality telemetry.
 
 Long-term:
