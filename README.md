@@ -469,7 +469,7 @@ Current limitation TODOs:
 - [x] Decide whether to add a GitHub Pages/static landing app, separate from the live Fastify-backed workspace.
 - [ ] Run Quest headset UAT on physical hardware.
 - [ ] Verify RTX 5060 Ti CUDA/NVENC success on the target Ubuntu host.
-- [ ] Implement real Linux app panel streaming.
+- [x] Implement real Linux app panel streaming.
 - [ ] Replace noVNC/virtual display planning hooks with a finished app surface stack.
 - [ ] Complete full PTY-backed shell session behavior for the terminal.
 - [x] Replace push-to-talk scaffolding with a full speech recognition/input pipeline.
@@ -481,7 +481,7 @@ Current limitation TODOs:
 Near-term:
 
 - [ ] Real PTY-backed terminal sessions.
-- [ ] Linux app panel streaming through virtual displays.
+- [x] Linux app panel streaming through virtual displays.
 - [x] Quest controller ray and hand pinch Drag Bus binding.
 - [x] First real `mindframe-renderd` producer loop.
 - [ ] MediaMTX/WHEP end-to-end remote layer UAT.
