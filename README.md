@@ -470,7 +470,7 @@ Mid-term:
 - [ ] Richer Johnny AFK task invention and return cards.
 - [x] App surface docking and spatial window layout persistence.
 - [ ] RTX-rendered 3D background layers.
-- [ ] Better adaptive quality telemetry.
+- [x] Better adaptive quality telemetry.
 
 Long-term:
 
