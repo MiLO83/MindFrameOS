@@ -502,7 +502,7 @@ Long-term:
 - [x] First-boot NVIDIA/CUDA provisioning.
 - [x] Automatic tunnel/service setup.
 - [x] Local speech-to-experience loop.
-- [ ] Stereo/foveated/depth-aware remote layer research.
+- [x] Stereo/foveated/depth-aware remote layer research.
 
 ## Safety Philosophy
 
