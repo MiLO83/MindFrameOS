@@ -10,7 +10,7 @@ MindFrameOS is an AR-first, WebXR-based Linux workspace for Quest-class headsets
 
 > This public repository is the MindFrameOS landing and release channel. It intentionally exposes the README and public releases only; the active source repository is private while the project is still experimental.
 
-The headset owns the things that must never stutter: passthrough, tracking, controller input, local terminal overlays, emergency controls, and final WebXR composition. The PC owns the expensive work: RTX remote render layers, Linux app surfaces, NVENC video paths, CUDA workloads, and future noVNC/virtual display capture.
+The headset owns the things that must never stutter: passthrough, tracking, controller input, local terminal overlays, emergency controls, and final WebXR composition. The PC owns the expensive work: RTX remote render layers, Linux app surfaces, noVNC virtual app panels, NVENC video paths, and CUDA workloads.
 
 The result is not a bootable operating system yet. It is an OS-like spatial workspace that runs on top of an existing desktop/server OS today, with a clear path toward a future bootable MindFrame appliance.
 
@@ -54,6 +54,7 @@ MindFrameOS currently includes:
 - Notion Event Bus and Recent Activity feed
 - Drag Bus for typed drops between Notions and floating targets
 - persistent app surface layout with left, center, right, and free placement docking
+- noVNC app surface stack launch path with Xvfb, Openbox, x11vnc, websockify, Linux app, and NVENC/WHEP encoder
 - Johnny AFK state contracts, hover rituals, return cards, and hidden-code prompt scaffolding
 - prompt-to-experience scene planning without exposing generated source by default
 - browser speech recognition pipeline that turns final voice transcripts into hidden-code experience prompts
@@ -84,7 +85,7 @@ flowchart LR
   Server --> Signal["Authenticated WebRTC signaling"]
 
   Renderd["mindframe-renderd<br/>Ubuntu RTX host"] --> NVENC["ffmpeg NVENC<br/>H.264 / AV1 / HEVC"]
-  Renderd --> Apps["Linux app surfaces<br/>future virtual panels"]
+  Renderd --> Apps["Linux app surfaces<br/>noVNC virtual panels"]
   NVENC --> MediaMTX["MediaMTX<br/>RTSP in, WHEP out"]
   MediaMTX --> Layers
 
@@ -189,7 +190,7 @@ The current browser UI is a desktop fallback for the same contracts Quest contro
 
 App surfaces have a persisted spatial layout stored in `.mindframe/app-surface-layout.json`.
 
-The control shell can dock registered app surfaces into left, center, right, or free placement presets. Layout updates are available through authenticated API routes and survive server restarts, so future Linux app panels and noVNC surfaces can attach to stable spatial positions instead of reappearing wherever the stream producer happens to start.
+The control shell can dock registered app surfaces into left, center, right, or free placement presets. Layout updates are available through authenticated API routes and survive server restarts. The app surface stack can launch a Linux app onto Xvfb, expose it through noVNC/websockify, and publish the same surface as an NVENC/WHEP remote layer for spatial composition.
 
 ## Johnny AFK
 
@@ -297,6 +298,8 @@ MindFrame:
 - `POST /api/mindframe/terminal/resize`
 - `GET /api/mindframe/capabilities`
 - `GET /api/mindframe/linux-apps`
+- `GET /api/mindframe/app-surfaces/stack`
+- `POST /api/mindframe/app-surfaces/:id/start`
 - `GET /api/mindframe/app-surfaces/layout`
 - `POST /api/mindframe/app-surfaces/layout`
 
@@ -473,7 +476,7 @@ Current limitation TODOs:
 - [ ] Run Quest headset UAT on physical hardware.
 - [ ] Verify RTX 5060 Ti CUDA/NVENC success on the target Ubuntu host.
 - [x] Implement real Linux app panel streaming.
-- [ ] Replace noVNC/virtual display planning hooks with a finished app surface stack.
+- [x] Replace noVNC/virtual display planning hooks with a finished app surface stack.
 - [x] Complete full PTY-backed shell session behavior for the terminal.
 - [x] Replace push-to-talk scaffolding with a full speech recognition/input pipeline.
 - [x] Add optional remote depth/alpha sidecars.
