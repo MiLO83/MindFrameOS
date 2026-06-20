@@ -66,7 +66,7 @@ MindFrameOS currently includes:
 - Johnny AFK state contracts, hover rituals, return cards, and hidden-code prompt scaffolding
 - prompt-to-experience scene planning without exposing generated source by default
 - browser speech recognition pipeline that turns final voice transcripts into hidden-code experience prompts
-- required Pixal3D GGUF Asset Forge contracts, status panel, auth routes, Notion identity, and prompt-to-asset job queue
+- required Pixal3D GGUF Asset Forge contracts, status panel, auth routes, Notion identity, prompt-to-asset job queue, ComfyUI producer client, and optional Blender auto-rig pass
 - scratch/pinned experience scaffolding for compatibility checks and rollback
 - distributed render-layer manifests
 - authenticated WebRTC signaling hub
@@ -226,17 +226,46 @@ Pixal3D GGUF is the required 3D asset backend for MindFrameOS Asset Forge.
 
 Asset Forge is not optional in the OS model. Every normal hidden-code experience prompt also creates an Asset Forge job candidate, and the control shell includes an Asset Forge panel for direct object prompts. Jobs target approval-gated, Quest-safe GLB output so generated spatial assets can become world props, character props, tool props, or background assets without exposing source code by default.
 
-The current implementation wires the provider contract, Notion identity, auth-gated routes, client panel, prompt integration, and job history. If the Pixal3D/ComfyUI runtime is not configured, jobs are preserved as `blocked` with explicit setup blockers instead of being silently ignored.
+The current implementation wires the provider contract, Notion identity, auth-gated routes, client panel, prompt integration, job history, ComfyUI producer client, Codex CLI command, and placed-asset records. If the Pixal3D/ComfyUI runtime is not configured, jobs are preserved as `blocked` with explicit setup blockers instead of being silently ignored.
 
 Required environment:
 
 ```text
 MINDFRAME_COMFYUI_URL=http://127.0.0.1:8188
 MINDFRAME_PIXAL3D_GGUF_MODEL_PATH=/opt/mindframe/models/pixal3d/pixal3d.gguf
+MINDFRAME_PIXAL3D_WORKFLOW_TEMPLATE=/opt/mindframe-os/deploy/pixal3d-workflow-template.json
+MINDFRAME_PIXAL3D_COMFYUI_ROOT=/opt/mindframe-comfyui
 MINDFRAME_ASSET_FORGE_OUTPUT_DIR=/var/lib/mindframe/assets
+MINDFRAME_ASSET_FORGE_AUTO_RIG_PROVIDER=blender-auto-rig
+MINDFRAME_ASSET_FORGE_AUTO_RIG_SCRIPT=/opt/mindframe-comfyui/auto-rig-pixal3d-blender.py
 ```
 
-The v1 route layer does not auto-download model weights or run the external ComfyUI workflow. That runtime still needs to be installed, verified on the RTX host, and connected to the producer loop.
+Pixal3D output should be treated as static mesh output unless a separate rigging pass succeeds. For character jobs, MindFrameOS can request a front-facing humanoid T/A-pose, run a guarded Blender auto-rig helper, store the rigged GLB as the preferred output, and mark the asset with the `humanoid-basic` animation profile. Once a skeleton exists, the Quest client can drive lightweight realtime bone animation locally through Three.js animation plumbing.
+
+Install the external producer on the native Ubuntu RTX host:
+
+```bash
+sudo bash scripts/install-pixal3d-comfyui-ubuntu.sh --apply --force
+```
+
+The installer:
+
+- refuses WSL/native-driver confusion
+- installs headless ComfyUI into `/opt/mindframe-comfyui`
+- installs the Pixal3D ComfyUI custom node checkout
+- installs Blender for the bundled first-pass auto-rig helper
+- installs `deploy/mindframe-comfyui.service`
+- writes Pixal3D/Asset Forge env pointers
+- records `.mindframe/pixal3d-comfyui-setup-report.txt`
+
+Codex CLI can queue the same routes Johnny uses:
+
+```bash
+npm run asset:forge -- generate "make Johnny a tiny brass lantern" --run --rig --use
+npm run asset:forge -- johnny "invent a hammock-side tool caddy"
+```
+
+The bundled `deploy/pixal3d-workflow-template.json` is a tokenized starter. After RTX-host UAT, replace it with the exact exported ComfyUI API workflow for the installed Pixal3D nodes.
 
 ## Involvement Tiers
 
@@ -295,6 +324,7 @@ http://127.0.0.1:8787/
 | `npm run dev` | Start Vite client dev server on `0.0.0.0:5173`. |
 | `npm run dev:server` | Start the Fastify control server. |
 | `npm run dev:renderd` | Start the RTX render daemon scaffold. |
+| `npm run asset:forge` | Codex/terminal Asset Forge helper for generate, run, rig, and use flows. |
 | `npm run smoke:whep` | Run or plan the local MediaMTX/WHEP remote-layer smoke test. |
 | `npm test` | Run Vitest. |
 | `npm run build` | Type-check and build the client. |
@@ -359,6 +389,11 @@ MindFrame:
 - `GET /api/mindframe/capabilities`
 - `GET /api/mindframe/asset-forge`
 - `POST /api/mindframe/asset-forge/jobs`
+- `POST /api/mindframe/asset-forge/johnny`
+- `POST /api/mindframe/asset-forge/jobs/:id/run`
+- `POST /api/mindframe/asset-forge/jobs/:id/sync`
+- `POST /api/mindframe/asset-forge/jobs/:id/rig`
+- `POST /api/mindframe/asset-forge/jobs/:id/use`
 - `GET /api/mindframe/linux-apps`
 - `GET /api/mindframe/app-surfaces/stack`
 - `POST /api/mindframe/app-surfaces/:id/start`
@@ -496,7 +531,8 @@ The first-boot provisioner:
 
 - refuses WSL/native-driver confusion
 - delegates NVIDIA/CUDA/NVENC setup to `scripts/install-nvidia-cuda-ubuntu.sh`
-- installs `deploy/mindframe-os.service` and `deploy/mindframe-renderd.service`
+- delegates Pixal3D/ComfyUI setup to `scripts/install-pixal3d-comfyui-ubuntu.sh` unless `--skip-pixal3d` is used
+- installs `deploy/mindframe-os.service`, `deploy/mindframe-renderd.service`, and `deploy/mindframe-comfyui.service`
 - writes `/etc/mindframe-os/mindframe.env` if it does not already exist
 - copies `deploy/cloudflared-config.example.yml` to `/etc/cloudflared/config.yml`
 - enables MindFrame services and Cloudflared through systemd
@@ -508,11 +544,13 @@ Manual deployment is still possible:
 2. Put secrets in `/etc/mindframe-os/mindframe.env`.
 3. Install `deploy/mindframe-os.service`.
 4. Install `deploy/mindframe-renderd.service`.
-5. Start MediaMTX with `deploy/mediamtx.mindframe.example.yml`.
-6. Configure Cloudflare Tunnel from `deploy/cloudflared-config.example.yml`.
-7. Run `sudo bash scripts/install-nvidia-cuda-ubuntu.sh --apply` or `bash scripts/verify-gpu.sh`.
-8. Start the services.
-9. Open the tunneled HTTPS URL in Quest Browser.
+5. Install `deploy/mindframe-comfyui.service`.
+6. Start MediaMTX with `deploy/mediamtx.mindframe.example.yml`.
+7. Configure Cloudflare Tunnel from `deploy/cloudflared-config.example.yml`.
+8. Run `sudo bash scripts/install-nvidia-cuda-ubuntu.sh --apply` or `bash scripts/verify-gpu.sh`.
+9. Run `sudo bash scripts/install-pixal3d-comfyui-ubuntu.sh --apply --force`.
+10. Start the services.
+11. Open the tunneled HTTPS URL in Quest Browser.
 
 ## Repository Layout
 
@@ -561,7 +599,8 @@ Current limitation TODOs:
 - [x] Decide whether to add a GitHub Pages/static landing app, separate from the live Fastify-backed workspace.
 - [ ] Run Quest headset UAT on physical hardware.
 - [ ] Verify RTX 5060 Ti CUDA/NVENC success on the target Ubuntu host.
-- [ ] Install, configure, and UAT the external Pixal3D GGUF/ComfyUI runtime on the RTX host.
+- [x] Add guarded installer and service wiring for the external Pixal3D GGUF/ComfyUI runtime.
+- [ ] Run Pixal3D GGUF/ComfyUI generation and auto-rig UAT on the target RTX host.
 - [x] Implement real Linux app panel streaming.
 - [x] Replace noVNC/virtual display planning hooks with a finished app surface stack.
 - [x] Complete full PTY-backed shell session behavior for the terminal.
@@ -579,7 +618,8 @@ Near-term:
 - [x] First real `mindframe-renderd` producer loop.
 - [x] MediaMTX/WHEP local end-to-end remote layer UAT.
 - [ ] MediaMTX/WHEP Quest and RTX-host remote layer UAT.
-- [ ] Connect queued Asset Forge jobs to a live Pixal3D GGUF producer workflow.
+- [x] Connect queued Asset Forge jobs to the Pixal3D GGUF ComfyUI producer API.
+- [ ] Replace the starter Pixal3D workflow template with the exact RTX-host exported ComfyUI API workflow after UAT.
 - [ ] Headset comfort pass for mode switching, Johnny AFK, and terminal focus.
 
 Mid-term:
