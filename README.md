@@ -8,8 +8,6 @@
 
 MindFrameOS is an AR-first, WebXR-based Linux workspace for Quest-class headsets and RTX-backed desktop/server machines.
 
-> This public repository is the MindFrameOS landing and release channel. It intentionally exposes the README and public releases only; the active source repository is private while the project is still experimental.
-
 The headset owns the things that must never stutter: passthrough, tracking, controller input, local terminal overlays, emergency controls, and final WebXR composition. The PC owns the expensive work: RTX remote render layers, Linux app surfaces, noVNC virtual app panels, NVENC video paths, and CUDA workloads.
 
 The result is not a bootable operating system yet. It is an OS-like spatial workspace that runs on top of an existing desktop/server OS today, with a clear path toward a future bootable MindFrame appliance.
@@ -24,6 +22,7 @@ Instead of treating VR as a monitor replacement, MindFrameOS treats the workspac
 - floating RTX-rendered app surfaces
 - a terminal hatch that stays usable when streams fail
 - Notions for places, tools, characters, services, and app surfaces
+- a required Pixal3D GGUF Asset Forge for prompt/voice/Johnny/drop-to-GLB asset work
 - Johnny AFK, an idle companion/screensaver layer that can queue or visualize work
 - a Drag Bus for moving Notions and content between floating targets
 - a three-tier involvement toggle: Guide, Co-Create, Autopilot
@@ -57,6 +56,7 @@ MindFrameOS currently includes:
   - Terminal
   - RTX Renderer
   - Media Bridge
+  - Asset Forge
   - Current Experience
 - Notion Index power-user panel
 - Notion Event Bus and Recent Activity feed
@@ -66,6 +66,7 @@ MindFrameOS currently includes:
 - Johnny AFK state contracts, hover rituals, return cards, and hidden-code prompt scaffolding
 - prompt-to-experience scene planning without exposing generated source by default
 - browser speech recognition pipeline that turns final voice transcripts into hidden-code experience prompts
+- required Pixal3D GGUF Asset Forge contracts, status panel, auth routes, Notion identity, and prompt-to-asset job queue
 - scratch/pinned experience scaffolding for compatibility checks and rollback
 - distributed render-layer manifests
 - authenticated WebRTC signaling hub
@@ -219,6 +220,24 @@ The prompt panel supports a browser speech recognition pipeline when `SpeechReco
 
 The mic button starts and stops listening, interim transcripts appear in the prompt field, final transcripts submit to `/api/mindframe/prompt` with `source: "voice"`, and unsupported browsers show a disabled mic state instead of pretending voice input is available. Voice prompts still follow the hidden-code contract: the app updates the visible experience without exposing generated source by default.
 
+## Asset Forge
+
+Pixal3D GGUF is the required 3D asset backend for MindFrameOS Asset Forge.
+
+Asset Forge is not optional in the OS model. Every normal hidden-code experience prompt also creates an Asset Forge job candidate, and the control shell includes an Asset Forge panel for direct object prompts. Jobs target approval-gated, Quest-safe GLB output so generated spatial assets can become world props, character props, tool props, or background assets without exposing source code by default.
+
+The current implementation wires the provider contract, Notion identity, auth-gated routes, client panel, prompt integration, and job history. If the Pixal3D/ComfyUI runtime is not configured, jobs are preserved as `blocked` with explicit setup blockers instead of being silently ignored.
+
+Required environment:
+
+```text
+MINDFRAME_COMFYUI_URL=http://127.0.0.1:8188
+MINDFRAME_PIXAL3D_GGUF_MODEL_PATH=/opt/mindframe/models/pixal3d/pixal3d.gguf
+MINDFRAME_ASSET_FORGE_OUTPUT_DIR=/var/lib/mindframe/assets
+```
+
+The v1 route layer does not auto-download model weights or run the external ComfyUI workflow. That runtime still needs to be installed, verified on the RTX host, and connected to the producer loop.
+
 ## Involvement Tiers
 
 MindFrameOS includes a three-tier involvement model:
@@ -338,6 +357,8 @@ MindFrame:
 - `POST /api/mindframe/terminal/run`
 - `POST /api/mindframe/terminal/resize`
 - `GET /api/mindframe/capabilities`
+- `GET /api/mindframe/asset-forge`
+- `POST /api/mindframe/asset-forge/jobs`
 - `GET /api/mindframe/linux-apps`
 - `GET /api/mindframe/app-surfaces/stack`
 - `POST /api/mindframe/app-surfaces/:id/start`
@@ -493,9 +514,7 @@ Manual deployment is still possible:
 8. Start the services.
 9. Open the tunneled HTTPS URL in Quest Browser.
 
-## Private Source Layout
-
-The private source repository is organized as:
+## Repository Layout
 
 ```text
 deploy/                  systemd, MediaMTX, Cloudflare examples
@@ -542,6 +561,7 @@ Current limitation TODOs:
 - [x] Decide whether to add a GitHub Pages/static landing app, separate from the live Fastify-backed workspace.
 - [ ] Run Quest headset UAT on physical hardware.
 - [ ] Verify RTX 5060 Ti CUDA/NVENC success on the target Ubuntu host.
+- [ ] Install, configure, and UAT the external Pixal3D GGUF/ComfyUI runtime on the RTX host.
 - [x] Implement real Linux app panel streaming.
 - [x] Replace noVNC/virtual display planning hooks with a finished app surface stack.
 - [x] Complete full PTY-backed shell session behavior for the terminal.
@@ -559,6 +579,7 @@ Near-term:
 - [x] First real `mindframe-renderd` producer loop.
 - [x] MediaMTX/WHEP local end-to-end remote layer UAT.
 - [ ] MediaMTX/WHEP Quest and RTX-host remote layer UAT.
+- [ ] Connect queued Asset Forge jobs to a live Pixal3D GGUF producer workflow.
 - [ ] Headset comfort pass for mode switching, Johnny AFK, and terminal focus.
 
 Mid-term:
@@ -568,6 +589,7 @@ Mid-term:
 - [x] Richer Johnny AFK task invention and return cards.
 - [x] App surface docking and spatial window layout persistence.
 - [x] RTX-rendered 3D background layers.
+- [x] Required Pixal3D GGUF Asset Forge contract, Notion, routes, and control panel.
 - [x] Better adaptive quality telemetry.
 
 Long-term:
