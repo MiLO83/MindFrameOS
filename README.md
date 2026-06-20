@@ -482,7 +482,7 @@ Near-term:
 
 - [ ] Real PTY-backed terminal sessions.
 - [ ] Linux app panel streaming through virtual displays.
-- [ ] Quest controller ray and hand pinch Drag Bus binding.
+- [x] Quest controller ray and hand pinch Drag Bus binding.
 - [x] First real `mindframe-renderd` producer loop.
 - [ ] MediaMTX/WHEP end-to-end remote layer UAT.
 - [ ] Headset comfort pass for mode switching, Johnny AFK, and terminal focus.
