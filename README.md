@@ -45,6 +45,10 @@ MindFrameOS currently includes:
   - desk/front layout
   - 360 swivel-chair ring
   - bed skyview overhead layout
+- separate equirectangular world maps for:
+  - MindFrame chamber
+  - Johnny AFK island horizon
+- pseudo-depth wipe transition between chamber and island world maps
 - authenticated terminal/control overlay with process-backed shell session, history, and resize routes
 - emergency disconnect that dims remote layers
 - MindFrame Notions:
@@ -102,7 +106,7 @@ flowchart LR
 Composition order:
 
 1. Quest passthrough camera from `immersive-ar`
-2. local WebXR shell and opacity-controlled world
+2. local WebXR shell and opacity-controlled equirect world
 3. RTX remote render layers
 4. local terminal/control overlays
 5. controller affordances and emergency disconnect UI
@@ -126,6 +130,8 @@ The three display modes are implemented as composition behavior inside one AR se
 Native WebXR composition layers are intended when available. The fallback path renders remote streams as textures on Three.js planes.
 
 The workspace can also be reprojected for posture. Desk mode preserves authored front-facing placements. 360 Chair mode distributes remote layers around a full ring so physical swivel-chair rotation becomes navigation. Bed Skyview mode raises panels into an overhead arc for lying down and looking upward. A Summon control brings the active surface back into the current comfortable view without flattening the whole workspace.
+
+The local world is rendered as camera-inside equirectangular sphere maps. MindFrame chamber and Johnny AFK island each have their own map, plus a procedural pseudo-depth mask. The clock/hammock transition uses that mask as a depth wipe so far horizon pixels reveal the incoming world before foreground floor or shore pixels. Display mode opacity still wins: full VR shows the world fully, hybrid AR shows it at 50 percent, and passthrough AR hides the world so the headset camera remains primary.
 
 ## Distributed Rendering Model
 
