@@ -41,7 +41,7 @@ MindFrameOS currently includes:
   - full VR-style opaque world
   - 50 percent AR hybrid
   - passthrough AR
-- local terminal/control overlay
+- authenticated terminal/control overlay with process-backed shell session, history, and resize routes
 - emergency disconnect that dims remote layers
 - MindFrame Notions:
   - Johnny AFK
@@ -292,6 +292,9 @@ MindFrame:
 - `GET /api/mindframe/evolve/daily`
 - `POST /api/mindframe/evolve/daily`
 - `POST /api/mindframe/console`
+- `GET /api/mindframe/terminal`
+- `POST /api/mindframe/terminal/run`
+- `POST /api/mindframe/terminal/resize`
 - `GET /api/mindframe/capabilities`
 - `GET /api/mindframe/linux-apps`
 - `GET /api/mindframe/app-surfaces/layout`
@@ -471,7 +474,7 @@ Current limitation TODOs:
 - [ ] Verify RTX 5060 Ti CUDA/NVENC success on the target Ubuntu host.
 - [x] Implement real Linux app panel streaming.
 - [ ] Replace noVNC/virtual display planning hooks with a finished app surface stack.
-- [ ] Complete full PTY-backed shell session behavior for the terminal.
+- [x] Complete full PTY-backed shell session behavior for the terminal.
 - [x] Replace push-to-talk scaffolding with a full speech recognition/input pipeline.
 - [x] Add optional remote depth/alpha sidecars.
 - [ ] Run headset UAT for full controller/hand Drag Bus mechanics.
@@ -480,7 +483,7 @@ Current limitation TODOs:
 
 Near-term:
 
-- [ ] Real PTY-backed terminal sessions.
+- [x] Real PTY-backed terminal sessions.
 - [x] Linux app panel streaming through virtual displays.
 - [x] Quest controller ray and hand pinch Drag Bus binding.
 - [x] First real `mindframe-renderd` producer loop.
