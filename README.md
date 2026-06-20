@@ -64,6 +64,7 @@ MindFrameOS currently includes:
 - guarded Ubuntu NVIDIA/CUDA installer
 - NVIDIA/CUDA/NVENC verification scripts
 - systemd, Cloudflare Tunnel, and MediaMTX example configs
+- public README/release channel for sharing the project without publishing source or a static app bundle
 - Vitest coverage across shared contracts, server routes, signaling, render daemon planning, client projection, and WebXR state
 
 ## Architecture
@@ -410,6 +411,14 @@ npm run build
 
 The current build may report Vite's large chunk warning because Three.js and the WebXR client are bundled together. That warning is expected for now.
 
+## Public Landing Decision
+
+MindFrameOS does not publish a GitHub Pages/static landing app in v1.
+
+The public-facing `github.com/MiLO83/MindFrameOS` repo is intentionally a README and release channel. The runnable workspace expects the live Fastify backend, authenticated routes, local services, and future private source/runtime pieces, so the browser app should not be pushed as a standalone static public bundle yet.
+
+A future Pages site can be added as a separate marketing/documentation surface when it can stay source-free and avoid implying that the live OS workspace runs without the backend.
+
 ## Current Limitations
 
 MindFrameOS is an active prototype.
@@ -417,7 +426,7 @@ MindFrameOS is an active prototype.
 Current limitation TODOs:
 
 - [ ] Build a bootable OS installer.
-- [ ] Decide whether to add a GitHub Pages/static landing app, separate from the live Fastify-backed workspace.
+- [x] Decide whether to add a GitHub Pages/static landing app, separate from the live Fastify-backed workspace.
 - [ ] Run Quest headset UAT on physical hardware.
 - [ ] Verify RTX 5060 Ti CUDA/NVENC success on the target Ubuntu host.
 - [ ] Implement real Linux app panel streaming.
