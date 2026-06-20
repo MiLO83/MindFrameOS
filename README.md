@@ -276,6 +276,7 @@ http://127.0.0.1:8787/
 | `npm run dev` | Start Vite client dev server on `0.0.0.0:5173`. |
 | `npm run dev:server` | Start the Fastify control server. |
 | `npm run dev:renderd` | Start the RTX render daemon scaffold. |
+| `npm run smoke:whep` | Run or plan the local MediaMTX/WHEP remote-layer smoke test. |
 | `npm test` | Run Vitest. |
 | `npm run build` | Type-check and build the client. |
 | `npm run check` | Run tests and build together. |
@@ -430,6 +431,32 @@ Expected checks:
 - ffmpeg exposes NVENC encoders
 - Docker can run `nvidia-smi` inside an NVIDIA CUDA container
 
+## MediaMTX/WHEP Smoke UAT
+
+MindFrameOS includes a local smoke harness for the remote video-layer bridge.
+
+Plan the smoke without starting processes:
+
+```bash
+npm run smoke:whep -- --plan
+```
+
+Run the smoke when `mediamtx` and `ffmpeg` are available on `PATH`:
+
+```bash
+npm run smoke:whep
+```
+
+The smoke harness:
+
+- writes `.mindframe/smoke/mediamtx-whep-smoke.yml`
+- starts MediaMTX on RTSP `8554` and WHEP/WebRTC `8889`
+- publishes an `ffmpeg` `testsrc2` H.264 pattern to `rtsp://127.0.0.1:8554/mindframe/gpu-scene-shell`
+- reports the browser-consumable WHEP URL `http://127.0.0.1:8889/mindframe/gpu-scene-shell/whep`
+- exits with blockers if MediaMTX, ffmpeg, or required ports are unavailable
+
+This proves the local RTSP-to-WHEP bridge path. During local browser UAT, MindFrameOS can start `gpu-scene-shell`, receive the MediaMTX WHEP stream, and attach it to a Three.js remote layer. Quest Browser UAT and RTX/NVENC publish UAT still need the physical headset and target Ubuntu RTX host.
+
 ## Deployment Sketch
 
 Dry-run the first-boot path:
@@ -530,7 +557,8 @@ Near-term:
 - [x] Linux app panel streaming through virtual displays.
 - [x] Quest controller ray and hand pinch Drag Bus binding.
 - [x] First real `mindframe-renderd` producer loop.
-- [ ] MediaMTX/WHEP end-to-end remote layer UAT.
+- [x] MediaMTX/WHEP local end-to-end remote layer UAT.
+- [ ] MediaMTX/WHEP Quest and RTX-host remote layer UAT.
 - [ ] Headset comfort pass for mode switching, Johnny AFK, and terminal focus.
 
 Mid-term:
