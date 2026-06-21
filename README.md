@@ -205,6 +205,7 @@ Important controls:
 - Use the display mode toggle for full VR, 50 percent AR hybrid, and passthrough AR.
 - Use posture layout controls for desk, 360 swivel chair, and bed skyview.
 - On desktop preview, click the 3D viewport to enter pointer-lock mouse look; horizontal mouse movement wraps continuously around 360 degrees and Escape releases capture.
+- In 360 Chair mode, window controls use seam-aware interaction zones: if the same window appears on both sides of the `-180/+180` edge, the wrap-side copy resolves to the same underlying layer target for buttons, focus, drops, and future hit tests.
 - The current procedural 360 chamber and island backgrounds are horizontally seam-safe; future imported art still needs an explicit seam/tile check.
 - Use the terminal hatch for shell work. It stays local so remote stream failures do not strand the user.
 - Use Guide, Co-Create, or Autopilot to choose how much agency the system has.
