@@ -52,6 +52,7 @@ DreamFrameOS is built around:
 - RTX remote layers for app panels, generated scenes, video layers, and optional 3D backgrounds
 - Notions, which represent places, tools, characters, services, app surfaces, and experiences
 - Johnny AFK, an idle/dream companion layer that can visualize approved tasks while you are away
+- Johnny Advancement Notes for sharing plain-text improvement advice without publishing user code
 - prompt and voice-to-experience flows that do not expose generated source by default
 - a Drag Bus for moving text, file references, and Notions between floating targets
 - Pixal3D GGUF Asset Forge for generated GLB assets, optional rigging, and logical animation
@@ -203,6 +204,8 @@ Important controls:
 - Press `~` / Backquote to cycle DreamFrame shell, DreamFrame plus console, and Johnny AFK.
 - Use the display mode toggle for full VR, 50 percent AR hybrid, and passthrough AR.
 - Use posture layout controls for desk, 360 swivel chair, and bed skyview.
+- On desktop preview, click the 3D viewport to enter pointer-lock mouse look; horizontal mouse movement wraps continuously around 360 degrees and Escape releases capture.
+- The current procedural 360 chamber and island backgrounds are horizontally seam-safe; future imported art still needs an explicit seam/tile check.
 - Use the terminal hatch for shell work. It stays local so remote stream failures do not strand the user.
 - Use Guide, Co-Create, or Autopilot to choose how much agency the system has.
 - Use prompt or voice input to ask for experiences, tools, characters, or scene changes.
@@ -257,6 +260,8 @@ When the system idles or the clock hover ritual is triggered, Johnny can wake up
 
 The intended feel is playful, but the safety model is serious: generated work should be previewed, explained, and approved instead of silently mutating user-owned worlds.
 
+Johnny's public sharing model is advice-only. A user's Johnny may research, prototype, test, and implement locally after approval, but the community artifact should be a plain-text Advancement Note rather than a code patch. Advancement Notes describe the problem, local outcome, implementation recipe, compatibility tags, test checklist, risks, privacy notes, and share score. The score weighs impact, generality, safety, portability, test evidence, accessibility, reversibility, and clarity. This lets users benefit from each other's discoveries while keeping personal prompts, private files, local source, secrets, logs, and machine-specific paths out of the public feed.
+
 ## Asset Forge And Pixal3D
 
 Pixal3D GGUF is the required 3D asset backend direction for DreamFrameOS Asset Forge.
@@ -303,6 +308,7 @@ Near term:
 Mid term:
 
 - richer Johnny AFK task invention and return cards
+- community Advancement Notes for advice-only sharing across divergent user forks
 - persistent spatial layout polish
 - app surface docking and runtime persistence
 - stronger adaptive quality telemetry
@@ -323,6 +329,8 @@ The local shell wins.
 DreamFrameOS should remain usable when remote rendering stutters, RTX services are offline, or a stream gets corrupted. Terminal focus, mode toggles, emergency disconnect, controller affordances, and critical menus stay local to the Quest/browser compositor.
 
 Protected experiences and Notion memory should require explicit approval before promotion or mutation. Autopilot can prepare work, but it should not silently overwrite the user-owned world.
+
+Community sharing should prefer plain-text Advancement Notes over code. Johnny can help a local user craft and verify a change, but public sharing should default to advice, recipe, and spec text that another user's own Johnny/Cody can adapt to that user's personal setup.
 
 ## License And Source Boundary
 
