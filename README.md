@@ -5,6 +5,12 @@
 [![Three.js](https://img.shields.io/badge/Three.js-Spatial%20Shell-111111?logo=three.js&logoColor=white)](https://threejs.org/)
 [![Freeware](https://img.shields.io/badge/license-freeware%20preview-2f855a)](#license-and-source-boundary)
 
+## Illustrated First-Use Storybook
+
+Start here for a large-type, print-friendly introduction to the DreamFrameOS experience:
+
+[**The First DreamFrame Day**](output/pdf/DreamFrameOS-The-First-DreamFrame-Day.pdf) is a 30-page illustrated PDF written and illustrated by Cody Meridian Vale for MiLO83 and DreamFrameOS. It introduces the spherical room, Johnny AFK, notion connecting, Guide / Co-Create / Autopilot, Kids Mode guard rails, the console hatch, 360 chair use, and safe first-session habits.
+
 DreamFrameOS is a freeware preview of an AR-first, WebXR-based Linux workspace for Quest-class headsets and RTX-backed desktop/server machines.
 
 The big idea is simple: vibe code from inside a spatial room instead of staring at flat monitors. The headset owns tracking, passthrough, controller input, local terminal overlays, emergency controls, and final WebXR composition. The PC or Ubuntu RTX host owns expensive work such as remote render layers, Linux app surfaces, CUDA, NVENC video, virtual displays, and Pixal3D/ComfyUI asset generation.
